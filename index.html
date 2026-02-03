@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- bs -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        *{
+            padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
+        }
+        #mainDiv{
+            border: 3px solid green;
+            width:70%;
+            height:max-content;
+            padding: 20px 0px;
+            border-radius: 5px;
+            padding-left: 10px;
+        }
+        #main{
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            align-items:stretch;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 0px 0px 0px 3%;
+        }
+        #edit{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 10%;
+            border: 3px solid red;
+        }
+        #buttons{
+            display: flex;
+            justify-content: center;
+            align-items: center;            
+            text-align: center;
+            width: 10%;
+            font-weight: bold;
+            font-variant: small-caps;
+        }
+        #create{
+            display: flex;
+            justify-content:flex-end;
+            padding-right: 6%;
+
+        }
+        #create div{
+            text-align: end;
+        }
+        #createPost{
+            display:grid;justify-content: end;align-items: center; background-color: red;height: 70px;padding-right: 10%;margin-bottom: 3%;
+        }
+        #createPostButton:hover{
+            background-color: lightgray;
+            color:darkorchid;
+        }
+        #createPostButton{
+            font-weight: bold;
+            font-variant: small-caps;
+            height: 70%;
+            color: red;
+            background-color: white;
+            border: none;
+            padding: 0px 10px;
+        }
+        .modal-body input{
+            width: 80%;
+            margin: 2%;
+            color: red;
+        }
+        .modal-body input::placeholder{
+            color:black;
+            font-variant: small-caps;
+        }
+        .modal-body input:focus{
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+
+    <!-- generate modal for take i/p's -->
+    <div id="createPost">
+    <!-- Button trigger modal -->
+            <button id="createPostButton" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Create a Post</button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                <div class="modal-header bg-danger text-light">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Users : </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form onsubmit="postData(event)">
+                    <div class="modal-body" style="text-align: center">
+                        <input type="text" name="first_name" placeholder="first_name"><br>
+                        <input type="email" name="email" placeholder="email"><br>
+                        <input type="text" name="gender" placeholder="gender"><br>
+                        <input type="text" name="job" placeholder="job">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary"/>
+                    </div>
+                </form>
+                </div>
+            </div>
+            </div>
+    </div>
+
+
+
+    <div id="main" ></div>
+    
+    <script>
+    // 1st fetch the data --->get data
+    var data
+       async function getData(){
+        let url="http://localhost:3001/users"
+        data=await fetch(url)
+        data =await data.json()
+        console.log(data);
+        
+        let dataStr = "";
+
+        for(let i of data){
+            dataStr += `
+        <div id='mainDiv'>
+           Id_No : ${i.id} |
+           Fname : ${i.first_name} |
+           Email :${i.email} |
+           gender:${i.gender}|
+           Job :${i.job}
+        </div>
+
+        <!-- Button trigger modal -->
+<button id="buttons" onclick="openEditModal(${i.id})" type="button" class="btn btn-outline-primary b" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  Edit 📝
+</button>
+
+<!-- Modal -->
+<div  class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-light">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit User :</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form onsubmit="putData(event)" >
+        <div class="modal-body text-center"  >
+                    Id num : <input id='putid' type="text" name="Id" placeholder="Id" readonly><br>
+                    Name   : <input id='putname' type="text" name="first_name" placeholder="first_name"><br>
+                    Email id:  <input id='putmail' type="email" name="email" placeholder="email"><br>
+                    Gender : <input id='putgender' type="text" name="gender" placeholder="gender"><br>
+                    JobRole: <input id='putjob' type="text" name="job" placeholder="job">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary"/>
+                
+                </div>
+            </form>
+        
+    </div>
+  </div>
+</div>
+
+
+        
+        <div id='buttons' class="btn btn-outline-danger" style="cursor:pointer;" onclick="deleteUsers(${i.id})">delete 🗑️</div>
+        `
+        }
+
+        document.getElementById('main').innerHTML= dataStr;
+        
+        }
+        
+    // disp the data -->get
+    getData() 
+
+
+    // // post data
+    
+    async function postData(e){
+        e.preventDefault();
+        const newPostObj={};
+        // -3 used for 1st -1 for  cancel button another for submit button another for we calculating length but we want index formate .
+        let countFormFields=e.target.length-3
+        for(let i=0;i<=countFormFields;i++){
+            newPostObj[e.target[i].name]=e.target[i].value
+        }
+
+        console.log(newPostObj);
+
+        // fetch
+        let url="http://localhost:3001/postUsers"
+        const data= await fetch(url, {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify(newPostObj)
+        })
+        data=await data.json()
+        // after post dispon web page via calling get method.
+        getData();
+        }
+        
+    // delete data 
+    async function deleteUsers(id) {
+        let url=`http://localhost:3001/deleteUser/${id}`
+
+        await fetch(url,{
+            method:"DELETE"
+        })
+        getData()
+    }
+
+    
+    // put-->user clicked data disp on modal.
+    async function openEditModal(id){
+        // user clicked button obj store in user.
+        const user = data.find(i => i.id == id);
+        console.log(user);
+        
+        // disp  the user clicked edit details in modal  
+        document.getElementById('putid').value = id;
+        document.getElementById('putname').value = user.first_name;
+        document.getElementById('putmail').value = user.email;
+        document.getElementById('putgender').value = user.gender;
+        document.getElementById('putjob').value = user.job;
+        }
+
+
+    // update users -->put
+        async function putData(e) {
+            e.preventDefault();
+            let Id = document.getElementById('putid').value
+            console.log(Id);
+            
+            const updatedUser = {
+                id : Id,
+                first_name: document.getElementById('putname').value,
+                email: document.getElementById('putmail').value,
+                gender: document.getElementById('putgender').value,
+                job: document.getElementById('putjob').value
+            };
+            console.log(updatedUser);
+            
+            let url=`http://localhost:3001/putUsers/${Id}`
+            
+            await fetch(url,{
+                method:"PUT",
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify(updatedUser)
+            })
+            // after put/edit dispon web page via calling get method.
+            getData();
+        }
+        
+    </script>
+<!-- bs  for js-->
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
