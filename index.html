@@ -124,7 +124,7 @@
     // 1st fetch the data --->get data
     var data
        async function getData(){
-        let url="http://localhost:3001/users"
+        let url="https://lodolist-expressjs.onrender.com/users"
         data=await fetch(url)
         data =await data.json()
         console.log(data);
