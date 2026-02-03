@@ -201,7 +201,7 @@
         console.log(newPostObj);
 
         // fetch
-        let url="http://localhost:3001/postUsers"
+        let url="https://lodolist-expressjs.onrender.com/postUsers"
         const data= await fetch(url, {
             method:'POST',
             headers:{'Content-Type':'application/json'},
@@ -214,7 +214,7 @@
         
     // delete data 
     async function deleteUsers(id) {
-        let url=`http://localhost:3001/deleteUser/${id}`
+        let url=`https://lodolist-expressjs.onrender.com/deleteUser/${id}`
 
         await fetch(url,{
             method:"DELETE"
@@ -253,7 +253,8 @@
             };
             console.log(updatedUser);
             
-            let url=`http://localhost:3001/putUsers/${Id}`
+            // let url=`http://localhost:3001/putUsers/${Id}`
+            let url=`https://lodolist-expressjs.onrender.com/putUsers/${Id}`
             
             await fetch(url,{
                 method:"PUT",
