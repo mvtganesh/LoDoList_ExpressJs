@@ -39,7 +39,7 @@
 let exp = require("express");
 let app = exp();
 let cors=require('cors')
-let port = 3001;
+let port = process.env.port || 3001;
 let fs = require("fs");
 let data = require("./employee.json");
 app.use(cors())
