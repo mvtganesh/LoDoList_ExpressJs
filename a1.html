@@ -1,4 +1,3 @@
-<!-- main code at a1.js   this code only for git hub,render to generate a link -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -125,7 +124,7 @@
     // 1st fetch the data --->get data
     var data
        async function getData(){
-        let url="https://lodolist-expressjs.onrender.com/users"
+        let url="http://localhost:3001/users"
         data=await fetch(url)
         data =await data.json()
         console.log(data);
@@ -202,7 +201,7 @@
         console.log(newPostObj);
 
         // fetch
-        let url="https://lodolist-expressjs.onrender.com/postUsers"
+        let url="http://localhost:3001/postUsers"
         const data= await fetch(url, {
             method:'POST',
             headers:{'Content-Type':'application/json'},
@@ -215,7 +214,7 @@
         
     // delete data 
     async function deleteUsers(id) {
-        let url=`https://lodolist-expressjs.onrender.com/deleteUser/${id}`
+        let url=`http://localhost:3001/deleteUser/${id}`
 
         await fetch(url,{
             method:"DELETE"
@@ -254,9 +253,7 @@
             };
             console.log(updatedUser);
             
-            // let url=`http://localhost:3001/putUsers/${Id}`
-            let url=`https://lodolist-expressjs.onrender.com/putUsers/${Id}`
-            
+            let url=`http://localhost:3001/putUsers/${Id}`            
             await fetch(url,{
                 method:"PUT",
                 headers:{'Content-Type':'application/json'},

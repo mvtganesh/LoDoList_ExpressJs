@@ -70,9 +70,9 @@ app.post('/postUsers',(req,res)=>{
 // in id name place we can use any name and entile function use that name only.
 app.delete('/deleteUser/:id',(req,res)=>{
     let id=parseInt(req.params.id)
-    let filterData=data.filter(i=>i.id!=id)
-    fs.writeFileSync('./employee.json',JSON.stringify(filterData))
-    res.send(filterData)
+    data=data.filter(i=>i.id!=id)
+    fs.writeFileSync('./employee.json',JSON.stringify(data))
+    res.send(data)
 })
 
 // update users -->put users
